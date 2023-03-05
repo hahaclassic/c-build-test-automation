@@ -9,11 +9,17 @@ if [ -z "$input_data" -o -z "$output_data" ]; then
   echo "[ERR] I/O data-pair doesn't exist."
   exit 1
 else
+
+   if [ "$3" == "-s" ]; then
+     comparator="../.././str_comparator.sh"
+   else
+     comparator="../.././num_comparator.sh"
+   fi
+
     test_num=$(echo "$input_data" | grep -o -E "[0-9]+")
     touch ../data/buffer_out.txt
     buffer="../data/buffer_out.txt"
     exe_file="../../main.exe"
-    comparator="../.././num_comparator.sh"
 
     $exe_file < "$input_data" > "$buffer"
     return_code_exe="$?"

@@ -16,6 +16,12 @@ chmod +x main.exe
 cd func_tests/scripts
 
 
+if [ "$1" == "-s" ]; then
+  str_flag="-s"
+else
+  str_flag=""
+fi
+
 # Positive cases
 pos_ok_count=0
 poses=$(find ../data -type f -name "pos*in*" | sort)
@@ -25,7 +31,7 @@ pos_test_amount=$(sed "s/ //g" <<< "$pos_test_amount")
 for input_file in $poses; do
   output_file="$(echo "$input_file" | sed "s/in/out/g")"
 
-  ./pos_case.sh "$input_file" "$output_file"
+  ./pos_case.sh "$input_file" "$output_file" "$str_flag"
   return_code="$?"
   if [ "$return_code" == "0" ]; then
     pos_ok_count=$((pos_ok_count + 1))
@@ -44,7 +50,7 @@ neg_test_amount=$(sed "s/ //g" <<< "$neg_test_amount")
 for input_file in $negs; do
   output_file="$(echo "$input_file" | sed "s/in/out/g")"
 
-  ./neg_case.sh "$input_file" "$output_file"
+  ./neg_case.sh "$input_file" "$output_file" "$str_flag"
   return_code="$?"
   if [ "$return_code" == "0" ]; then
     neg_ok_count=$((neg_ok_count + 1))
