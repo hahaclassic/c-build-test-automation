@@ -1,18 +1,30 @@
 #!/bin/bash
 
+print_usage()
+{
+  printf "Usage: ./func_tests.sh [-b] -- rebuild release main.c version\n [-s] -- use string comparator\n [-v] -- verbose mode\n"
+}
+flag_rebuild=""
+flag_strcomp=""
+flag_verbose=""
+
+while getopts "bsv" flag; do
+  case "${flag}" in
+    b) flag_rebuild="true" ;;
+    s) flag_strcomp="true" ;;
+    v) flag_verbose="true" ;;
+    *) print_usage
+        exit 1
+        ;;
+  esac
+done
 
 # Build a project if needed
-if [ "$1" == "-bld" ] || ["$2" == "-bld" ]; then
+if [ -n "$flag_rebuild" ]; then
   cd ../..
   ./build_release.sh
   chmod +x main.exe
   cd func_tests/scripts
-fi
-
-if [ "$1" == "-s" ] || [ "$2" == "-s" ]; then
-  str_flag="-s"
-else
-  str_flag=""
 fi
 
 # Positive cases
@@ -24,11 +36,8 @@ pos_test_amount=$(sed "s/ //g" <<< "$pos_test_amount")
 
 for input_file in $poses; do
   output_file="$(echo "$input_file" | sed "s/in/out/g")"
-  printf "input file to pos_case: %s\n" "$input_file"
-  printf "output file to pos_case: %s\n" "$output_file"
 
-
-  ./pos_case.sh "$input_file" "$output_file" "$str_flag"
+  ./pos_case.sh "$input_file" "$output_file" "$flag_strcomp" "$flag_verbose"
   return_code="$?"
   if [ "$return_code" == "0" ]; then
     pos_ok_count=$((pos_ok_count + 1))
@@ -49,13 +58,12 @@ neg_test_amount=$(sed "s/ //g" <<< "$neg_test_amount")
 for input_file in $negs; do
   output_file="$(echo "$input_file" | sed "s/in/out/g")"
 
-  ./neg_case.sh "$input_file" "$output_file" "$str_flag"
+  ./neg_case.sh "$input_file" "$output_file" "$flag_strcomp" "$flag_verbose"
   return_code="$?"
   if [ "$return_code" == "0" ]; then
     neg_ok_count=$((neg_ok_count + 1))
   fi
 done
-
 
 echo " "
 echo "############################"

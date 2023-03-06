@@ -1,1 +1,0 @@
-add_executable(lab_01_08_01 main.c)

@@ -10,11 +10,17 @@ if [ -z "$input_data" -o -z "$output_data" ]; then
   exit 1
 else
 
-   if [ "$3" == "-s" ]; then
-     comparator="../.././str_comparator.sh"
-   else
-     comparator="../.././num_comparator.sh"
-   fi
+  if [ -n "$3" ]; then
+    comparator="../.././str_comparator.sh"
+  else
+    comparator="../.././num_comparator.sh"
+  fi
+
+  if [ -n "$4" ]; then
+    flag_verbose="-v"
+  else
+    flag_verbose=""
+  fi
 
   test_num=$(echo "$input_data" | grep -o -E "[0-9]+")
   touch ../data/buffer_out.txt
@@ -22,12 +28,8 @@ else
   exe_file="../../main.exe"
 
   $exe_file < "$input_data" > "$buffer"
-
-  printf "to comp expected : %s\n" "$output_data"
-  printf "to comp actual : %s\n" "$buffer"
-  $comparator "$output_data" "$buffer"
+  $comparator "$output_data" "$buffer" "$flag_verbose"
   return_code="$?"
-
 
   if [ "$return_code" == "0" ]; then
     echo "Positive test ${test_num} : PASS"

@@ -16,6 +16,12 @@ else
      comparator="../.././num_comparator.sh"
    fi
 
+   if [ "$4" == "-v" ]; then
+     flag_verbose="-v"
+   else
+     flag_verbose=""
+   fi
+
     test_num=$(echo "$input_data" | grep -o -E "[0-9]+")
     touch ../data/buffer_out.txt
     buffer="../data/buffer_out.txt"
@@ -24,7 +30,7 @@ else
     $exe_file < "$input_data" > "$buffer"
     return_code_exe="$?"
 
-    $comparator "$output_data" "$buffer"
+    $comparator "$output_data" "$buffer" "$flag_verbose"
     return_code_diff="$?"
 
     if [[ "$return_code_exe" != "0" ]]; then

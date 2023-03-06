@@ -1,8 +1,24 @@
 #!/bin/bash
 
-# Add trimmer
+print_usage()
+{
+  prtinf "Usage: ./make_data.sh\n [-r] -- rebuild release version\n [-a] -- automate output\n"
+}
 
-if [ "$1" == "-bld" ] || [ "$2" == "-bld" ]; then
+flag_auto=""
+flag_rebuild=""
+
+while getopts "ar" flag; do
+  case "$flag" in
+  a) flag_auto="true" ;;
+  r) flag_rebuild="true" ;;
+  *) print_usage
+    exit 1
+    ;;
+  esac
+done
+
+if [ -n "$flag_rebuild" ]; then
     ./build_release.sh
     chmod +x main.exe
 fi
@@ -78,7 +94,7 @@ while [ "$flag" != "false" ]; do
   echo "- In : ${data}" >> "$readme_file"
 
   # Output data from executing
-  if [ "$1" == "-auto" ] || [ "$2" == "-auto" ]; then
+  if [ -n "$flag_auto" ]; then
   exe_file="./main.exe"
   $exe_file < "$file_in" > "$file_out"
   out_data=$(cat "$file_out")
@@ -88,7 +104,7 @@ while [ "$flag" != "false" ]; do
   # Output data manually
   else
     read -p "Write output data for your ${count} ${data_status} test case: " out_data
-    echo "$out_data" > "$file_out"
+    printf "%s\n" "$out_data" > "$file_out"
     echo "- Out : ${out_data}" >> "$readme_file"
   fi
 
