@@ -55,7 +55,7 @@ while [ "$flag" != "false" ]; do
   if [ "$userChoice" == "q" ]; then
     cat "$readme_ok" > "$readme_main"
     cat "$readme_err" >> "$readme_main"
-    cp "$readme_main" .
+    cp "$readme_main" ./func_tests
     flag="false"
     exit 0
   fi
