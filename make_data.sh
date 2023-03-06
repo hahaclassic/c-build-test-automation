@@ -2,7 +2,7 @@
 
 print_usage()
 {
-  prtinf "Usage: ./make_data.sh\n [-r] -- rebuild release version\n [-a] -- automate output\n"
+  printf "Usage: ./make_data.sh\n [-r] -- rebuild release version\n [-a] -- automate output\n"
 }
 
 flag_auto=""
@@ -55,6 +55,7 @@ while [ "$flag" != "false" ]; do
   if [ "$userChoice" == "q" ]; then
     cat "$readme_ok" > "$readme_main"
     cat "$readme_err" >> "$readme_main"
+    cp "$readme_main" .
     flag="false"
     exit 0
   fi
