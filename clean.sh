@@ -4,7 +4,8 @@ echo "All files in current directory except *.c, *.h, *.sh and *.txt will be del
 read -r users_choice
 
 if [ "$users_choice" == "y" ]; then
-  find . -maxdepth 1 -type f ! \( -name "*.sh" -o -name "*.txt" -o -name "*.c" -o -name "*.h" -o -name ".gitignore" \) -delete
+  find . -maxdepth 1 -type f ! \(-name "*.md" -o -name "*.sh" -o -name "*.txt" -o -name "*.c" -o -name "*.h" -o -name 
+".gitignore" \) -delete
 
   echo "Directory now is clear!"
   exit 0
