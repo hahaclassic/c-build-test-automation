@@ -2,6 +2,11 @@
 
 # Works when main.exe file is already created in the root folder
 
+print_verbose()
+{
+  printf "%s\n" "$1"
+}
+
 input_data=$1
 output_data=$2
 
@@ -9,11 +14,13 @@ if [ -z "$input_data" -o -z "$output_data" ]; then
   echo "[ERR] I/O data-pair doesn't exist."
   exit 1
 else
-
-  if [ -n "$3" ]; then
+  # Define comparator
+  if [ "$3" == "-s" ]; then
     comparator="../.././str_comparator.sh"
-  else
+  elif [ "$3" == "-n" ]; then
     comparator="../.././num_comparator.sh"
+  else
+    comparator="../.././comparator.sh"
   fi
 
   if [ -n "$4" ]; then
@@ -32,10 +39,14 @@ else
   return_code="$?"
 
   if [ "$return_code" == "0" ]; then
-    echo "Positive test ${test_num} : PASS"
+    if [ -n "$flag_verbose" ]; then
+      print_verbose "Positive test ${test_num} : PASS"
+    fi
     exit 0
   else
-    echo "Positive test ${test_num} : FAIL"
+    if [ -n "$flag_verbose" ]; then
+      print_verbose "Positive test ${test_num} : FAIL"
+    fi
     exit 1
   fi
 fi

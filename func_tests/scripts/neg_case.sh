@@ -2,6 +2,11 @@
 
 # Works when main.exe file is already created in the root folder
 
+print_verbose()
+{
+  printf "%s\n" "$1"
+}
+
 input_data=$1
 output_data=$2
 
@@ -10,13 +15,15 @@ if [ -z "$input_data" -o -z "$output_data" ]; then
   exit 1
 else
 
-   if [ "$3" == "-s" ]; then
-     comparator="../.././str_comparator.sh"
-   else
-     comparator="../.././num_comparator.sh"
-   fi
+  if [ "$3" == "-s" ]; then
+    comparator="../.././str_comparator.sh"
+  elif [ "$3" == "-n" ]; then
+    comparator="../.././num_comparator.sh"
+  else
+    comparator="../.././comparator.sh"
+  fi
 
-   if [ "$4" == "-v" ]; then
+   if [ -n "$4" ]; then
      flag_verbose="-v"
    else
      flag_verbose=""
@@ -35,14 +42,20 @@ else
 
     if [[ "$return_code_exe" != "0" ]]; then
       if [ "$return_code_diff" == "0" ]; then
-        echo "Negative test ${test_num} : PASS"
+        if [ -n "$flag_verbose" ]; then
+          print_verbose "Negative test ${test_num} : PASS"
+        fi
         exit 0
       else
-        echo "Negative test ${test_num} : FAIL (Different output data)"
+        if [ -n "$flag_verbose" ]; then
+          print_verbose "Negative test ${test_num} : FAIL (Different output data)"
+        fi
         exit 1
       fi
     else
-      echo "Negative test ${test_num} : FAIL (Zero return code)"
+      if [ -n "$flag_verbose" ]; then
+        print_verbose "Negative test ${test_num} : FAIL (Zero return code)"
+      fi
       exit 1
     fi
 fi
