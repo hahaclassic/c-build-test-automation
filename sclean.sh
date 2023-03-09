@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo "All files in current directory except *.c, *.h, *.sh and *.txt will be deleted. Sure? [y/n]: "
+echo "All files in current directory except *.c, *.h, *.sh and *.txt will be deleted."
+files_to_delete=$(find . -maxdepth 1 -type f ! \( -name "*.md" -o -name "*.sh" -o -name "*.txt" -o -name "*.c" -o -name "*.h" -o -name "*gitignore" \))
+printf "\nFiles that will be deleted: \n%s\nSure? [y/n] :" "$files_to_delete"
 read -r users_choice
 
 if [ "$users_choice" == "y" ]; then
