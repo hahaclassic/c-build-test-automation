@@ -37,7 +37,8 @@ done
 
 # Urgent exit if both flags -n && -s are given
 if [ -n "$flag_strcomp" ] && [ -n "$flag_numcomp" ]; then
-  pritnf "[ERR] - comparator's behaviour is undefined.\n (!) Hint don't use [-s] && [-n] together\n"
+  printf "[ERR] - comparator's behaviour is undefined.\n (!) Hint don't use [-s] 
+&& [-n] together\n"
   exit 1
 elif [ -n "$flag_strcomp" ] && [ -z "$flag_numcomp" ]; then
   flag="-s"
