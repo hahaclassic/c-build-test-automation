@@ -22,6 +22,7 @@ flag_strcomp=""
 flag_numcomp=""
 flag_verbose=""
 
+
 while getopts "nbsv" flag; do
   case "${flag}" in
     b) flag_rebuild="true" ;;
@@ -34,6 +35,7 @@ while getopts "nbsv" flag; do
         ;;
   esac
 done
+
 
 # Urgent exit if both flags -n && -s are given
 if [ -n "$flag_strcomp" ] && [ -n "$flag_numcomp" ]; then
