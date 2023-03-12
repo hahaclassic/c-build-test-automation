@@ -6,7 +6,7 @@ source_path="/Users/nikita/Programming/clabs/testing_scripts/"
 destination="$1"
 
 
-cd ~/
+#cd ~/
 cp Programming/clabs/testing_scripts/*sh "$destination"
 
 if [[ -d "Programming/clabs/testing_scripts/func_tests/" ]]; then
@@ -14,6 +14,7 @@ if [[ -d "Programming/clabs/testing_scripts/func_tests/" ]]; then
 else
   cp -r Programming/clabs/testing_scripts/func_tests/ "$destination"
 fi
+}
 
 
 
