@@ -99,8 +99,9 @@ while [ "$flag" != "false" ]; do
   echo "### Test ${count}: [${description}]" >> "$readme_file"
 
   read -p "Write input data for your ${count} ${data_status} test case: " data
-  echo "$data" > "$file_in"
-  echo "- In : ${data}" >> "$readme_file"
+  echo "$data" | sed -r 's/[|]+/ /g' > "$file_in"
+  echo "- In : " >> "$readme_file"
+  echo "$data" | sed -r 's/[|]+/ /g' >> "$readme_file"
 
   # Output data from executing
   if [ -n "$flag_auto" ]; then
