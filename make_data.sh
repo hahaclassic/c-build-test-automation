@@ -56,6 +56,7 @@ while [ "$flag" != "false" ]; do
   read -p "Choice [pos/neg/q]? : " userChoice
 
   if [ "$userChoice" != "pos" ] && [ "$userChoice" != "neg" ] && [ "$userChoice" != "q" ]; then
+    pritnf "[ERR] : INCORRECT INPUT"
     continue
   fi
 
@@ -103,7 +104,7 @@ while [ "$flag" != "false" ]; do
 
   # Output data from executing
   if [ -n "$flag_auto" ]; then
-  exe_file="./main.exe"
+  exe_file="./*.exe"
   $exe_file < "$file_in" > "$file_out"
   out_data=$(cat "$file_out")
   echo "Output for your input : ${out_data}"
