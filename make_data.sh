@@ -18,9 +18,12 @@ while getopts "ar" flag; do
   esac
 done
 
-if [ -n "$flag_rebuild" ]; then
+if [ -n "$flag_rebuild" ] && [ -f "./build_release.sh" ]; then
     ./build_release.sh
     chmod +x main.exe
+elif [ -n "$flag_rebuild" ] && [ ! -f "./build_release.sh" ]
+    printf "[ERR] : Unable to recompile (build_release not found)"
+    exit 1
 fi
 
 data_folder="./func_tests/data"
