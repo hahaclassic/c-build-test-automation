@@ -21,7 +21,7 @@ done
 if [ -n "$flag_rebuild" ] && [ -f "./build_release.sh" ]; then
     ./build_release.sh
     chmod +x main.exe
-elif [ -n "$flag_rebuild" ] && [ ! -f "./build_release.sh" ]
+elif [ -n "$flag_rebuild" ] && [ ! -f "./build_release.sh" ]; then
     printf "[ERR] : Unable to recompile (build_release not found)"
     exit 1
 fi
@@ -54,6 +54,10 @@ flag=true
 while [ "$flag" != "false" ]; do
   printf "Choose option:\n[pos] - Create positive data-pair\n[neg] - Create negative data-pair\n[q] - Quit.\n"
   read -p "Choice [pos/neg/q]? : " userChoice
+
+  if [ "$userChoice" != "pos" ] && [ "$userChoice" != "neg" ] && [ "$userChoice" != "q" ]; then
+    continue
+  fi
 
   if [ "$userChoice" == "q" ]; then
     cat "$readme_ok" > "$readme_main"
