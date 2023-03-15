@@ -17,13 +17,14 @@
 
  print_menu()
  {
-     echo ""
+     printf "Choose option:\n[pos] - Create positive data-pair\n[neg] - Create negative data-pair\n[q] - Quit.\n"
+
  }
 
 
  print_usage()
  {
-     echo ""
+     printf "./gen_data.sh\n[ -r | --rebuild ] - run ./build_release.sh\n[ -a | --auto ] - automate output\n[ -t=num | --trim=num] - trim numbers from output\n"
  }
 
 
@@ -55,10 +56,37 @@ trim_num()
 
 trim_str()
 {
-    echo ""
+    string="Result:"
+
+    flag_hook=false
+    file_raw=/tmp/buffer
+    file_trimmed=/tmp/buffer_trimmed
+
+    cat "$file_raw" | { cat ; echo ; } |
+    while read line
+    do
+        if [ "$flag_hook" = "true" ]; then
+            echo "$line" >> /tmp/buffer_trimmed
+        else
+            for word in $line; do
+                if [[ $word =~ $string ]]; then
+                    (sed -n -e "s/^.*\(Result:.*\)/\1/p" <<< "$line") > /tmp/buffer_trimmed
+                    flag_hook=true
+                    break
+                fi
+            done
+        fi
+    done
+
+    cat /tmp/buffer_trimmed
+
+    echo "- Out : " >> "$readme_file"
+    tr '\n' ' ' < /tmp/buffer_trimmed > "$file_out"
+    cat "$file_out" >> "$readme_file"
+
+    rm /tmp/buffer
+    rm /tmp/buffer_trimmed
 }
-
-
 
 
 # Scan flags
